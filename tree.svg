@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="500" height="500">
 <rect x="0" y="0" width="500" height="500" style="stroke:#000;fill:none"/>
-<line x1="250" y1="500" x2="250" y2="400" style="stroke:#000" class="wiggle"/>
-<line x1="250" y1="400" x2="219" y2="326" style="stroke:#000" class="wiggle" />
+<line x1="250" y1="500" x2="250" y2="400" style="stroke:#000" class="wiggle a"/>
+<line x1="250" y1="400" x2="219" y2="326" style="stroke:#000" class="wiggle b" />
 <line x1="219" y1="326" x2="174" y2="281" style="stroke:#000" class="wiggle" />
 <line x1="174" y1="281" x2="127" y2="261" style="stroke:#000" class="wiggle" />
 <line x1="127" y1="261" x2="86" y2="261" style="stroke:#000" class="wiggle" />
@@ -50,6 +50,28 @@
 		}, 50));
 	}
 
+	function random_number(min,max) {
+		return (Math.round((max-min) * Math.random() + min));
+	}
+
+	function create_unique_random_array(num_elements,min,max) {
+		var temp, nums = [];
+		for (var element=0; num_elements > element; element++) {
+			while((temp=number_found(random_number(min,max),nums))==-1);
+			nums[element] = temp;
+		}
+		return (nums);
+	}
+
+	function number_found(random_number,number_array) {
+		for (var element=0; number_array.length > element; element++) {
+			if (random_number==number_array[element]) {
+				return (-1);
+			}
+	   	}
+		return (random_number);
+	}
+
 	// immediately invoked function expression to run the code
 	(() => {
 		var lines = document.getElementsByClassName("wiggle");
@@ -60,15 +82,15 @@
 			line.style.transition="all 0.1s";
 			line.style["transform-origin"]="$1px $2px".replace("$1", (line.x1.baseVal.value + line.x2.baseVal.value) / 2).replace("$2", (line.y1.baseVal.value + line.y2.baseVal.value) / 2); 
 		};
-
-		var i = 0;
-		setInterval(() => {
-			if (i >= lines.length) {
-				i = 0;	
+		
+		var randomLineIndices = create_unique_random_array(lines.length,0,lines.length-1);
+	
+		var interval = setInterval(() => {
+			if (randomLineIndices.length == 0) {
+				clearInterval(interval);	
 			}
-			spin(lines[i]);
-			i = i + 1;
-		}, 200);
+			spin(lines[randomLineIndices.pop()]);
+		}, 50);
 	})();
 
 </script>
