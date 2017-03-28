@@ -37,6 +37,10 @@
 		var rotations = ["7", "20", "52", "90", "128", "160", "173", "180"];
 		var spinIntervals = [];
 		var j=0;
+	
+		if (line == undefined) {
+			return;
+		}
 		
 		line.style.display="unset";
 		spinIntervals = spinIntervals.concat(setInterval(() => { 
@@ -46,8 +50,9 @@
 				});
 			}
 			line.style.transform="rotate($1deg)".replace("$1", rotations[j]); 
+			line.style.opacity="$1".replace("$1", (j+3)/10); 
 			j = j+1;
-		}, 50));
+		}, 70));
 	}
 
 	function random_number(min,max) {
@@ -78,6 +83,7 @@
 
 		// setup the lines for spinning
 		for (var line of lines) {
+			line.style.opacity = 0.2;
 			line.style.display="none";
 			line.style.transition="all 0.1s";
 			line.style["transform-origin"]="$1px $2px".replace("$1", (line.x1.baseVal.value + line.x2.baseVal.value) / 2).replace("$2", (line.y1.baseVal.value + line.y2.baseVal.value) / 2); 
