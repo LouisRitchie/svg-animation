@@ -33,10 +33,11 @@
 <line x1="373" y1="261" x2="414" y2="261" style="stroke:#000" class="wiggle" />
 <script type="text/javascript">
 
+	var ROTATIONS = ["7", "20", "52", "90", "128", "160", "173", "180"];
+
 	function spin(line) {
-		var rotations = ["7", "20", "52", "90", "128", "160", "173", "180"];
-		var spinIntervals = [];
 		var j=0;
+		var spinIntervals = [];
 	
 		if (line == undefined) {
 			return;
@@ -44,44 +45,42 @@
 		
 		line.style.display="unset";
 		spinIntervals = spinIntervals.concat(setInterval(() => { 
-			if (j >= rotations.length-1) {
+			if (j >= ROTATIONS.length-1) {
 				spinIntervals.map((interval) => { 
 					clearInterval(interval); 
 				});
 			}
-			line.style.transform="rotate($1deg)".replace("$1", rotations[j]); 
+			line.style.transform="rotate($1deg)".replace("$1", ROTATIONS[j]); 
 			line.style.opacity="$1".replace("$1", (j+3)/10); 
 			j = j+1;
 		}, 70));
 	}
 
-	function random_number(min,max) {
-		return (Math.round((max-min) * Math.random() + min));
-	}
-
-	function create_unique_random_array(num_elements,min,max) {
-		var temp, nums = [];
-		for (var element=0; num_elements > element; element++) {
-			while((temp=number_found(random_number(min,max),nums))==-1);
-			nums[element] = temp;
+	function randomArray(n) {
+		// create an array of unique randoms numbers 0..n
+		var temp, numbers = [];
+		for (var i=0; n > i; i++) {
+			while((temp=findIndex(Math.floor(Math.random() * n), numbers))==-1);
+			numbers[i] = temp;
 		}
-		return (nums);
+		return (numbers);
 	}
 
-	function number_found(random_number,number_array) {
-		for (var element=0; number_array.length > element; element++) {
-			if (random_number==number_array[element]) {
+	function findIndex(num,array) {
+		// return index of num in array, or -1 if not in array
+		for (var i=0; array.length > i; i++) {
+			if (num == array[i]) {
 				return (-1);
 			}
 	   	}
-		return (random_number);
+		return (num);
 	}
 
 	// immediately invoked function expression to run the code
 	(() => {
 		var lines = document.getElementsByClassName("wiggle");
 
-		// setup the lines for spinning
+		// apply initial style to lines
 		for (var line of lines) {
 			line.style.opacity = 0.2;
 			line.style.display="none";
@@ -89,7 +88,7 @@
 			line.style["transform-origin"]="$1px $2px".replace("$1", (line.x1.baseVal.value + line.x2.baseVal.value) / 2).replace("$2", (line.y1.baseVal.value + line.y2.baseVal.value) / 2); 
 		};
 		
-		var randomLineIndices = create_unique_random_array(lines.length,0,lines.length-1);
+		var randomLineIndices = randomArray(lines.length);
 	
 		var interval = setInterval(() => {
 			if (randomLineIndices.length == 0) {
