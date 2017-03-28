@@ -32,30 +32,32 @@
 <line x1="373" y1="261" x2="402" y2="232" style="stroke:#000" class="wiggle" />
 <line x1="373" y1="261" x2="414" y2="261" style="stroke:#000" class="wiggle" />
 <script type="text/javascript">
-	var lines = document.getElementsByClassName("wiggle");
-	var intervals = [];
-
-	for (var line of lines) {
-		line.style.transition="all 0.8s";
-	};
-
-	function spinBranch(index) {
-		var degrees = ["45deg", "90deg", "135deg", "180deg", "225deg", "270deg", "315deg", "0deg"];
+	function spin(line) {
+		var rotations = ["45deg", "90deg", "135deg", "180deg", "225deg", "270deg", "315deg", "0deg"];
+		var spinIntervals = [];
+		var j=0;
 		
-		intervals = intervals.concat(setInterval(() => { 
-			degrees.map(function(rotation) {
-				console.log("gets here")
-				lines[index].style.transform="rotate($1)".replace("$1", rotation); 
-			});
+		spinIntervals = spinIntervals.concat(setInterval(() => { 
+			if (j > rotations.length) {
+				spinIntervals.map((interval) => { clearInterval(interval); });
+			}
+			line.style.transform="rotate($1)".replace("$1", rotations[j]); 
+			j = j+1;
 		}, 100));
-
-		currentLine
 	}
 
 	(() => {
-		var currentLine = 0;
-		intervals = intervals.concat(setInterval(() => {
-			spinBranch(currentLine);
+		var lines = document.getElementsByClassName("wiggle");
+		var lineIntervals = [];
+
+		for (var line of lines) {
+			line.style.transition="all 0.8s";
+		};
+
+		var i = 0;
+		lineIntervals = lineIntervals.concat(setInterval(() => {
+			spin(lines[i]);
+			i = i + 1;
 		}, 3000));
 	})();
 </script>
