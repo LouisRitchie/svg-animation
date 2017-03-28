@@ -32,33 +32,42 @@
 <line x1="373" y1="261" x2="402" y2="232" style="stroke:#000" class="wiggle" />
 <line x1="373" y1="261" x2="414" y2="261" style="stroke:#000" class="wiggle" />
 <script type="text/javascript">
+
 	function spin(line) {
-		var rotations = ["45deg", "90deg", "135deg", "180deg", "225deg", "270deg", "315deg", "0deg"];
+		var rotations = ["7", "20", "52", "90", "128", "160", "173", "180"];
 		var spinIntervals = [];
 		var j=0;
 		
 		spinIntervals = spinIntervals.concat(setInterval(() => { 
-			if (j > rotations.length) {
-				spinIntervals.map((interval) => { clearInterval(interval); });
+			if (j >= rotations.length-1) {
+				spinIntervals.map((interval) => { 
+					clearInterval(interval); 
+				});
 			}
-			line.style.transform="rotate($1)".replace("$1", rotations[j]); 
+			line.style.transform="rotate($1deg)".replace("$1", rotations[j]); 
 			j = j+1;
-		}, 100));
+		}, 50));
 	}
 
+	// immediately invoked function expression to run the code
 	(() => {
 		var lines = document.getElementsByClassName("wiggle");
-		var lineIntervals = [];
 
+		// setup the lines for spinning
 		for (var line of lines) {
-			line.style.transition="all 0.8s";
+			line.style.transition="all 0.1s";
+			line.style["transform-origin"]="$1px $2px".replace("$1", (line.x1.baseVal.value + line.x2.baseVal.value) / 2).replace("$2", (line.y1.baseVal.value + line.y2.baseVal.value) / 2); 
 		};
 
 		var i = 0;
-		lineIntervals = lineIntervals.concat(setInterval(() => {
+		setInterval(() => {
+			if (i >= lines.length) {
+				i = 0;	
+			}
 			spin(lines[i]);
 			i = i + 1;
-		}, 3000));
+		}, 2000);
 	})();
+
 </script>
 </svg>
