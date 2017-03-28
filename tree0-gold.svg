@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="500" height="500">
+<rect x="0" y="0" width="500" height="500" style="stroke:#000;fill:none"/>
+<line x1="250" y1="500" x2="250" y2="400" style="stroke:#000" class="wiggle"/>
+<line x1="250" y1="400" x2="219" y2="326" style="stroke:#000" class="wiggle" />
+<line x1="219" y1="326" x2="174" y2="281" style="stroke:#000" class="wiggle" />
+<line x1="174" y1="281" x2="127" y2="261" style="stroke:#000" class="wiggle" />
+<line x1="127" y1="261" x2="86" y2="261" style="stroke:#000" class="wiggle" />
+<line x1="127" y1="261" x2="98" y2="232" style="stroke:#000" class="wiggle" />
+<line x1="174" y1="281" x2="155" y2="234" style="stroke:#000" class="wiggle" />
+<line x1="155" y1="234" x2="126" y2="205" style="stroke:#000" class="wiggle" />
+<line x1="155" y1="234" x2="155" y2="193" style="stroke:#000" class="wiggle" />
+<line x1="219" y1="326" x2="219" y2="262" style="stroke:#000" class="wiggle" />
+<line x1="219" y1="262" x2="200" y2="215" style="stroke:#000" class="wiggle" />
+<line x1="200" y1="215" x2="171" y2="186" style="stroke:#000" class="wiggle" />
+<line x1="200" y1="215" x2="200" y2="174" style="stroke:#000" class="wiggle" />
+<line x1="219" y1="262" x2="239" y2="215" style="stroke:#000" class="wiggle" />
+<line x1="239" y1="215" x2="239" y2="174" style="stroke:#000" class="wiggle" />
+<line x1="239" y1="215" x2="268" y2="186" style="stroke:#000" class="wiggle" />
+<line x1="250" y1="400" x2="281" y2="326" style="stroke:#000" class="wiggle" />
+<line x1="281" y1="326" x2="281" y2="262" style="stroke:#000" class="wiggle" />
+<line x1="281" y1="262" x2="261" y2="215" style="stroke:#000" class="wiggle" />
+<line x1="261" y1="215" x2="232" y2="186" style="stroke:#000" class="wiggle" />
+<line x1="261" y1="215" x2="261" y2="174" style="stroke:#000" class="wiggle" />
+<line x1="281" y1="262" x2="300" y2="215" style="stroke:#000" class="wiggle" />
+<line x1="300" y1="215" x2="300" y2="174" style="stroke:#000" class="wiggle" />
+<line x1="300" y1="215" x2="329" y2="186" style="stroke:#000" class="wiggle" />
+<line x1="281" y1="326" x2="326" y2="281" style="stroke:#000" class="wiggle" />
+<line x1="326" y1="281" x2="345" y2="234" style="stroke:#000" class="wiggle" />
+<line x1="345" y1="234" x2="345" y2="193" style="stroke:#000" class="wiggle" />
+<line x1="345" y1="234" x2="374" y2="205" style="stroke:#000" class="wiggle" />
+<line x1="326" y1="281" x2="373" y2="261" style="stroke:#000" class="wiggle" />
+<line x1="373" y1="261" x2="402" y2="232" style="stroke:#000" class="wiggle" />
+<line x1="373" y1="261" x2="414" y2="261" style="stroke:#000" class="wiggle" />
+<script type="text/javascript">
+	var lines = document.getElementsByClassName("wiggle");
+	var intervals = [];
+
+	for (var line of lines) {
+		line.style.transition="all 0.8s";
+	};
+
+	function spinBranch(index) {
+		var degrees = ["45deg", "90deg", "135deg", "180deg", "225deg", "270deg", "315deg", "0deg"];
+		
+		intervals = intervals.concat(setInterval(() => { 
+			degrees.map(function(rotation) {
+				console.log("gets here")
+				lines[index].style.transform="rotate($1)".replace("$1", rotation); 
+			});
+		}, 100));
+
+		currentLine
+	}
+
+	(() => {
+		var currentLine = 0;
+		intervals = intervals.concat(setInterval(() => {
+			spinBranch(currentLine);
+		}, 3000));
+	})();
+</script>
+</svg>
